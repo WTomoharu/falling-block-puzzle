@@ -1,2 +1,2 @@
-## README!
-# GitHubPages : https://wtomoharu.github.io/falling-block-puzzle/
+# README!
+## GitHubPages : https://wtomoharu.github.io/falling-block-puzzle/

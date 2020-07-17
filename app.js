@@ -6,7 +6,7 @@ function init() {
 }
 
 function animation_test(element, time) {
-    setTimeout(function() {
+    setTimeout(function () {
         element.innerHTML += `${time}ミリ秒経過`
     }, time)
 }
@@ -14,29 +14,29 @@ function animation_test(element, time) {
 function cout_test(element, end) {
     let i = 0
     // setInterval( fun, 間隔（ミリ秒）)
-    let id = setInterval(function() {
+    let id = setInterval(function () {
         i++
         element.innerHTML = `${i}`
-        
+
         if (i >= end) {
             console.log("end");
             clearInterval(id)
             return
         }
-    }, 1000/50) //一秒(1000ミリ秒)間に50回更新（50フレーム）
+    }, 1000 / 50) //一秒(1000ミリ秒)間に50回更新（50フレーム）
 }
 
 function move_test(element, time/* ミリ秒 */, dist) {
-    let zentai = time/20
+    let zentai = time / 20
     let i = 0
     let textObj = document.getElementById("js-test")
-    let id = setInterval(function() {
+    let id = setInterval(function () {
         i++
-        element.style.top = (i/zentai)*dist
-        textObj.innerHTML = `${i}:${(i/zentai)*dist}`
+        element.style.top = (i / zentai) * dist
+        textObj.innerHTML = `${i}:${(i / zentai) * dist}`
         if (i >= zentai) {
             clearInterval(id)
             return
         }
-    }, 1000/50)
+    }, 1000 / 50)
 }

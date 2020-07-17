@@ -26,17 +26,28 @@ function cout_test(element, end) {
     }, 1000 / 50) //一秒(1000ミリ秒)間に50回更新（50フレーム）
 }
 
-function move_test(element, time/* ミリ秒 */, dist) {
+function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
     let zentai = time / 20
     let i = 0
     let textObj = document.getElementById("js-test")
+    let moto = Number(element.style[dir].slice(0, -2))
     let id = setInterval(function () {
         i++
-        element.style.top = (i / zentai) * dist
-        textObj.innerHTML = `${i}:${(i / zentai) * dist}`
+        console.log(moto + ((i / zentai) * dist));
+        element.style[dir] = moto + ((i / zentai) * dist)
+        // textObj.innerHTML = `${i}:${(i / zentai) * dist}`
         if (i >= zentai) {
             clearInterval(id)
             return
         }
     }, 1000 / 50)
 }
+
+document.addEventListener("keydown", (evt) => {
+    console.log(evt.key);
+    if (evt.key == "ArrowRight") {
+        move_test(document.getElementById("rect-svg"), 200, 100, "left")
+    } else if (evt.key == "ArrowLeft") {
+        move_test(document.getElementById("rect-svg"), 200, -100, "left")
+    }
+}) 

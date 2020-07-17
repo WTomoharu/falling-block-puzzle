@@ -1,9 +1,8 @@
 "use strict";
 
 function init() {
-    let element = document.getElementById("js-test")
-    element.innerHTML = "js-test-text"
-    cout_test(element, 200)
+    let element = document.getElementById("rect-svg")
+    move_test(element, 10000)
 }
 
 function animation_test(element, time) {
@@ -25,4 +24,18 @@ function cout_test(element, end) {
             return
         }
     }, 1000/50) //一秒(1000ミリ秒)間に50回更新（50フレーム）
+}
+
+function move_test(element, time/* ミリ秒 */, dist) {
+    let i = time/20
+    let textObj = document.getElementById("js-test")
+    let id = setInterval(function() {
+        i--
+        element.style.top = i
+        textObj.innerHTML = `${i}`
+        if (i <= 0) {
+            clearInterval(id)
+            return
+        }
+    }, 1000/50)
 }

@@ -32,7 +32,7 @@ function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
     let moto = Number(element.style[dir].slice(0, -2))
     let id = setInterval(function () {
         i++
-        console.log(moto + ((i / zentai) * dist));
+        // console.log(moto + ((i / zentai) * dist));
         element.style[dir] = moto + ((i / zentai) * dist)
         if (i >= zentai) {
             clearInterval(id)

@@ -29,7 +29,7 @@ function cout_test(element, end) {
 function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
     let zentai = time / 20
     let i = 0
-    let moto = Number(element.style[dir].slice(0, -2))
+    let moto = Number(element.style.transform.match(/[-\d]+/gi) || "0")
     let id = setInterval(function () {
         i++
         // console.log(moto + ((i / zentai) * dist));
@@ -56,8 +56,7 @@ function rotation(element, time, angle) {
     let zentai = time / 20
     let i = 0
     // let moto = Number(element.style.transform)
-    let moto = element.style.transform.match(/\d+?/gi) || [0]
-    moto = Number(moto.join(""))
+    let moto = Number(element.style.transform.match(/[-\d]+/gi) || "0")
     console.log(moto);
     let id = setInterval(function () {
         i++

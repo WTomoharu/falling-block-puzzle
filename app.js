@@ -1,8 +1,10 @@
 "use strict";
 
+let ins;
+
 function init() {
     let element = document.getElementById("rect-svg")
-    move_test(element, 10000, 600)
+    ins = new Block(element)
 }
 
 function animation_test(element, time) {
@@ -44,9 +46,9 @@ function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
 document.addEventListener("keydown", (evt) => {
     console.log(evt.key);
     if (evt.key == "ArrowRight") {
-        move_test(document.getElementById("rect-svg"), 200, 50, "left")
+        ins.move_vartical("right")
     } else if (evt.key == "ArrowLeft") {
-        move_test(document.getElementById("rect-svg"), 200, -50, "left")
+        ins.move_vartical("left")
     } else if (evt.key == "ArrowUp") {
         rotation(document.getElementById("rect-svg"), 200, 90)
     }
@@ -68,4 +70,45 @@ function rotation(element, time, angle) {
             return
         }
     }, 1000 / 50)
+}
+
+
+class Block {
+    constructor(element, block_type = "") {
+        this.element = element
+        this.block_type = block_type
+        this.move_vartical_bool = true
+    }
+
+    move(time/* ミリ秒 */, dist, dir/* top or left */, calcallback = null) {
+        let zentai = time / 20
+        let i = 0
+        let moto = Number(this.element.style[dir].match(/[-\d]+/gi) || "0")
+        let id = setInterval(() => {
+            i++
+            this.element.style[dir] = moto + ((i / zentai) * dist)
+            if (i >= zentai) {
+                clearInterval(id)
+                if (calcallback) {
+                    calcallback()
+                }
+                return
+            }
+        }, 1000 / 50)
+    }
+
+    move_vartical(dir, time = 200, dist = 50) {
+        if (dir == "left") {　// 方向が左の場合、座標を反転させる
+            dist = -dist
+        }
+
+        if (this.move_vartical_bool) {　//実行中か判定
+            this.move_vartical_bool = false
+            this.move(time, dist, "left", () => {
+                this.move_vartical_bool = true // 処理が終わった後にtureに戻す
+            })
+        } else { //実行中の場合、非実行にする
+            console.log("move_varticalは非実行になりました");
+        }
+    }
 }

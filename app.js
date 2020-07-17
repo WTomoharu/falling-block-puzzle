@@ -44,9 +44,9 @@ function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
 document.addEventListener("keydown", (evt) => {
     console.log(evt.key);
     if (evt.key == "ArrowRight") {
-        move_test(document.getElementById("rect-svg"), 200, 100, "left")
+        move_test(document.getElementById("rect-svg"), 200, 50, "left")
     } else if (evt.key == "ArrowLeft") {
-        move_test(document.getElementById("rect-svg"), 200, -100, "left")
+        move_test(document.getElementById("rect-svg"), 200, -50, "left")
     } else if (evt.key == "ArrowUp") {
         rotation(document.getElementById("rect-svg"), 200, 90)
     }

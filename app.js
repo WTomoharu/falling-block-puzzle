@@ -29,7 +29,7 @@ function cout_test(element, end) {
 function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
     let zentai = time / 20
     let i = 0
-    let moto = Number(element.style.transform.match(/[-\d]+/gi) || "0")
+    let moto = Number(element.style[dir].match(/[-\d]+/gi) || "0")
     let id = setInterval(function () {
         i++
         // console.log(moto + ((i / zentai) * dist));

@@ -2,7 +2,7 @@
 
 function init() {
     let element = document.getElementById("rect-svg")
-    move_test(element, 10000)
+    move_test(element, 10000, 600)
 }
 
 function animation_test(element, time) {
@@ -27,13 +27,14 @@ function cout_test(element, end) {
 }
 
 function move_test(element, time/* ミリ秒 */, dist) {
-    let i = time/20
+    let zentai = time/20
+    let i = 0
     let textObj = document.getElementById("js-test")
     let id = setInterval(function() {
-        i--
-        element.style.top = i
-        textObj.innerHTML = `${i}`
-        if (i <= 0) {
+        i++
+        element.style.top = (i/zentai)*dist
+        textObj.innerHTML = `${i}:${(i/zentai)*dist}`
+        if (i >= zentai) {
             clearInterval(id)
             return
         }

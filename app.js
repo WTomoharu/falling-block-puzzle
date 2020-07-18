@@ -50,7 +50,7 @@ document.addEventListener("keydown", (evt) => {
     } else if (evt.key == "ArrowLeft") {
         ins.move_vartical("left")
     } else if (evt.key == "ArrowUp") {
-        rotation(document.getElementById("rect-svg"), 200, 90)
+        ins.safe_rotat()
     }
 }) 
 
@@ -78,6 +78,7 @@ class Block {
         this.element = element
         this.block_type = block_type
         this.move_vartical_bool = true
+        this.rotation_bool = true
     }
 
     move(time/* ミリ秒 */, dist, dir/* top or left */, calcallback = null) {
@@ -106,6 +107,42 @@ class Block {
             this.move_vartical_bool = false
             this.move(time, dist, "left", () => {
                 this.move_vartical_bool = true // 処理が終わった後にtureに戻す
+            })
+        } else { //実行中の場合、非実行にする
+            console.log("move_varticalは非実行になりました");
+        }
+    }
+
+    rotation(time, angle, calcallback) {
+        let zentai = time / 20
+        let i = 0
+        // let moto = Number(element.style.transform)
+        let moto = Number(this.element.style.transform.match(/[-\d]+/gi) || "0")
+        console.log(moto);
+        let id = setInterval(() => {
+            i++
+            // console.log(((i / zentai) * angle));
+            this.element.style.transform = `rotate(${moto + ((i / zentai) * angle)}deg)`
+            // textObj.innerHTML = `${i}:${(i / zentai) * dist}`
+            if (i >= zentai) {
+                clearInterval(id)
+                if (calcallback) {
+                    calcallback()
+                }
+                return
+            }
+        }, 1000 / 50)
+    }
+
+    safe_rotat(dir = "right", time = 200, angle = 90) {
+        if (dir == "left") {　// 方向が左の場合、座標を反転させる
+            dist = -dist
+        }
+
+        if (this.rotation_bool) {　//実行中か判定
+            this.rotation_bool = false
+            this.rotation(time, angle, () => {
+                this.rotation_bool = true // 処理が終わった後にtureに戻す
             })
         } else { //実行中の場合、非実行にする
             console.log("move_varticalは非実行になりました");

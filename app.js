@@ -81,6 +81,8 @@ class Block {
         this.block_type = block_type
         this.move_vartical_bool = true
         this.rotation_bool = true
+
+        this.move_improve(10000, 0, 600)
     }
 
     move_improve(time/* ミリ秒 */, x, y, calcallback = null) {

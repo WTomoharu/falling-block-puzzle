@@ -15,7 +15,7 @@ const rotat_dict = {
             { x: 25, y: 25 }
         ]
     },
-    "L": { //Tと完全に同じ
+    "I": { //Tと完全に同じ
         "right": [
             { x: 25, y: 25 },
             { x: -25, y: 25 },
@@ -31,11 +31,27 @@ const rotat_dict = {
     }
 }
 
+const block_svg_dict = {
+    "T":
+        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="100">
+    <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    </svg>`,
+    "I":
+        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="200" height="50">
+    <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="red"></rect>
+    <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="100" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="150" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    </svg>`
+}
+
 let ins;
 
 function init() {
-    let element = document.getElementById("rect-svg")
-    ins = new Block(element, "T")
+    ins = new Block(document.getElementById("div_svg"), "T_block", "T")
 }
 
 // 常に余算が正になるような関数
@@ -57,8 +73,14 @@ document.addEventListener("keydown", (evt) => {
 })
 
 class Block {
-    constructor(element, block_type) {
-        this.element = element
+    constructor(parent_element, block_id, block_type) {
+        //svg_element作成・挿入
+        parent_element.insertAdjacentHTML(
+            "beforeend",
+            block_svg_dict[block_type].replace("{block_id}", block_id)
+        )
+
+        this.element = document.getElementById(block_id)
         this.block_type = block_type
         this.rotat_num = 0
 

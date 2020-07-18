@@ -52,7 +52,7 @@ document.addEventListener("keydown", (evt) => {
     } else if (evt.key == "ArrowUp") {
         ins.safe_rotat()
     }
-}) 
+})
 
 function rotation(element, time, angle) {
     let zentai = time / 20

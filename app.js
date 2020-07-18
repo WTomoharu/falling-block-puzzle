@@ -1,19 +1,27 @@
 "use strict";
 
 const rotat_dict = {
-    "T": [
-        { x: -25, y: 25 },
-        { x: 25, y: -25 },
-        { x: 25, y: 25 },
-        { x: -25, y: -25 }
-    ]
+    "T": {
+        "right": [
+            { x: 25, y: 25 },
+            { x: -25, y: 25 },
+            { x: -25, y: -25 },
+            { x: 25, y: -25 }
+        ],
+        "left": [
+            { x: -25, y: 25 },
+            { x: -25, y: -25 },
+            { x: 25, y: -25 },
+            { x: 25, y: 25 }
+        ]
+    }
 }
 
 let ins;
 
 function init() {
     let element = document.getElementById("rect-svg")
-    ins = new Block(element)
+    ins = new Block(element, "T")
 }
 
 // 常に余算が正になるような関数
@@ -35,7 +43,7 @@ document.addEventListener("keydown", (evt) => {
 })
 
 class Block {
-    constructor(element, block_type = "T") {
+    constructor(element, block_type) {
         this.element = element
         this.block_type = block_type
         this.rotat_num = 0
@@ -69,19 +77,20 @@ class Block {
 
     rotat_improve(time/*ミリ秒*/, angle, calcallback = null) {
         let start = Date.now()
-        console.log(`angle=${(angle / (time / 20))}`);
+        let dir = angle >= 0 ? "right" : "left"
+        console.log(`angle=${(angle / (time / 20))}:${this.rotat_num}`);
 
         // 回転軸のズレを修正
         this.move_improve(time,
-            rotat_dict[this.block_type][this.rotat_num].x,
-            rotat_dict[this.block_type][this.rotat_num].y
+            rotat_dict[this.block_type][dir][this.rotat_num].x,
+            rotat_dict[this.block_type][dir][this.rotat_num].y
         )
 
         // rotat_numを終了後の値にセット
         if (angle >= 0) {
-            this.rotat_num = (this.rotat_num + 1) % 4
+            this.rotat_num = (this.rotat_num + 5) % 4
         } else {
-            this.rotat_num = (this.rotat_num - 1) % 4
+            this.rotat_num = (this.rotat_num + 3) % 4
         }
 
         let id = setInterval(() => {

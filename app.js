@@ -46,9 +46,9 @@ function move_test(element, time/* ミリ秒 */, dist, dir = "top") {
 document.addEventListener("keydown", (evt) => {
     console.log(evt.key);
     if (evt.key == "ArrowRight") {
-        ins.move_vartical("right")
+        ins.move_improve(200, 50, 0)
     } else if (evt.key == "ArrowLeft") {
-        ins.move_vartical("left")
+        ins.move_improve(200, -50, 0)
     } else if (evt.key == "ArrowUp") {
         ins.safe_rotat()
     }
@@ -79,6 +79,30 @@ class Block {
         this.block_type = block_type
         this.move_vartical_bool = true
         this.rotation_bool = true
+    }
+
+    move_improve(time/* ミリ秒 */, x, y, calcallback = null) {
+        let start = Date.now()
+        // console.log(`${(x / (time / 20))}:${(y / (time / 20))}`);
+
+        let id = setInterval(() => {
+            let time_passed = Date.now() - start
+            console.log(time_passed);
+
+            if (time_passed > (time+19)) { // 時間の遅れ用
+                clearInterval(id)
+                if (calcallback) {
+                    calcallback()
+                }
+                return
+            }
+
+            //アニメーション処理
+            let left = Number(this.element.style.left.match(/[-\d\.]+/gi) || "0")
+            this.element.style.left = left + (x / (time / 20))
+            let top = Number(this.element.style.top.match(/[-\d\.]+/gi) || "0")
+            this.element.style.top = top + (y / (time / 20))
+        }, 20)
     }
 
     move(time/* ミリ秒 */, dist, dir/* top or left */, calcallback = null) {

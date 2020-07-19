@@ -195,4 +195,18 @@ class Block {
             this.element.style.transform = `rotate(${n + (angle / (time / 20))}deg)`
         }, 20)
     }
+
+    block_check() {
+        let check_stage_list = deep_copy(stage)
+
+        for (let v of block_position_dict[this.block_type][this.rotat_num]) {
+            check_stage_list[v.y + this.position.y][v.x + this.position.x] += v.type
+        }
+
+        stage_log(check_stage_list)
+        let flat_list = Array.prototype.concat.apply([], check_stage_list) //リストをふ
+        // https://qiita.com/hachisukansw/items/81d739ef39af343df619
+        let max = flat_list.reduce((a, b) => a > b ? a : b)
+        return max
+    }
 }

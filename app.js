@@ -3,19 +3,19 @@
 const rotat_dict = {
     "T": {
         "right": [
-            { x: 25, y: 25 },
-            { x: -25, y: 25 },
-            { x: -25, y: -25 },
-            { x: 25, y: -25 }
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 }
         ],
         "left": [
-            { x: -25, y: 25 },
-            { x: -25, y: -25 },
-            { x: 25, y: -25 },
-            { x: 25, y: 25 }
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 }
         ]
     },
-    "I": { //Tと完全に同じ
+    "I": {
         "right": [
             { x: 25, y: 25 },
             { x: -25, y: 25 },
@@ -33,7 +33,7 @@ const rotat_dict = {
 
 const block_svg_dict = {
     "T":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="100">
+        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
     <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>

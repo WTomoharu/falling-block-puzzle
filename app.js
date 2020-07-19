@@ -376,6 +376,8 @@ class Block {
         //移動後のrotat_numを計算
         let next_rotat_num = this.position.x
         if (dir == "left") {
+            next_rotat_num = (this.rotat_num + 3) % 4
+        } else if (dir == "right") {
             next_rotat_num = (this.rotat_num + 5) % 4
         } else if (dir == "right") {
             next_rotat_num = (this.rotat_num + 3) % 4

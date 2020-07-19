@@ -87,10 +87,19 @@ function init() {
 }
 
 function stage_log(inp = stage) {
-    let r = inp.map((v) => {
+    const r = inp.map((v) => {
         return v.join(" ")
     }).join("\n")
     console.log(r)
+}
+
+// 二次元配列専用のディープコピー
+function deep_copy(inp) {
+    const result = [];
+    for (const line of inp) {
+        result.push([...line]);
+    }
+    return result;
 }
 
 // 常に余算が正になるような関数
@@ -122,6 +131,7 @@ class Block {
         this.element = document.getElementById(block_id)
         this.block_type = block_type
         this.rotat_num = 0
+        this.position = { x: 1, y: 1 }
 
         // this.move_improve(10000, 0, 600)
     }

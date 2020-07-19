@@ -183,6 +183,7 @@ class Block {
         this.element = document.getElementById(block_id)
         this.block_type = block_type
         this.rotat_num = 0
+        this.move_lock = false
         this.position = { x: 1, y: 0 }
 
         // this.move(10000, 0, 600)
@@ -266,6 +267,12 @@ class Block {
     }
 
     safeMove(dir/* left or right */) {
+        //ロック状態かを確認
+        if (this.move_lock) {
+            console.log("ロック状態のため移動できません");
+            return
+        }
+
         //移動後の座標を計算
         let next_x = this.position.x
         if (dir == "left") {
@@ -295,6 +302,12 @@ class Block {
     }
 
     safeRotat(dir /* right or left */) {
+        //ロック状態かを確認
+        if (this.move_lock) {
+            console.log("ロック状態のため回転できません");
+            return
+        }
+
         //移動後のrotat_numを計算
         let next_rotat_num = this.position.x
         if (dir == "left") {
@@ -336,10 +349,7 @@ class Block {
             this.position.y++
             ins.move(2000, 0, 50)
         } else {
-            console.log("移動不可のため落下を終了")
-            if (calcallback) {
-                calcallback()
-            }
+            console.log("移動不可のため落下不可")
             return
         }
 
@@ -357,9 +367,7 @@ class Block {
             } else {
                 console.log("移動不可のため落下を終了")
                 clearInterval(id)
-                if (calcallback) {
-                    calcallback()
-                }
+                this.move_lock = true
                 return
             }
         }, 2000)

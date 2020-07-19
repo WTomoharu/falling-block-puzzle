@@ -190,7 +190,7 @@ let stage = [
 let ins;
 
 function init() {
-    ins = new Block(document.getElementById("div_svg"), "T_block", "T")
+    ins = new Block(document.getElementById("div_svg"), "T_block", "L")
 }
 
 function stage_log(inp = stage) {
@@ -241,7 +241,7 @@ class Block {
         this.move_lock = false
         this.position = { x: 1, y: 0 }
 
-        // this.move(10000, 0, 600)
+        // this.falling()
     }
 
     move(time/*ミリ秒*/, x, y, calcallback = null) {
@@ -291,6 +291,7 @@ class Block {
             // console.log(time_passed);
 
             if (time_passed > (time + 19)) { // 時間の遅れ用
+                this.inStageLog()
                 clearInterval(id)
                 if (calcallback) {
                     calcallback()
@@ -311,7 +312,7 @@ class Block {
             check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
         }
 
-        stage_log(check_stage_list)
+        // stage_log(check_stage_list)
 
         //リストをフラットにする
         let flat_list = Array.prototype.concat.apply([], check_stage_list)
@@ -319,6 +320,15 @@ class Block {
         // 最大値を取得：https://qiita.com/hachisukansw/items/81d739ef39af343df619
         let max = flat_list.reduce((a, b) => a > b ? a : b)
         return max
+    }
+
+    inStageLog(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
+        let check_stage_list = deep_copy(stage)
+
+        for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
+            check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
+        }
+        stage_log(check_stage_list)
     }
 
     safeMove(dir/* left or right */) {
@@ -390,7 +400,7 @@ class Block {
         }
     }
 
-    falling(calcallback = null) {
+    falling() {
         //初回処理
 
         //移動可能かチェックする（最大値返却）
@@ -402,7 +412,7 @@ class Block {
         //最大値から移動可能か判定する
         if (check <= 3) {
             this.position.y++
-            ins.move(2000, 0, 50)
+            this.move(2000, 0, 50)
         } else {
             console.log("移動不可のため落下不可")
             return
@@ -418,7 +428,7 @@ class Block {
             //最大値から移動可能か判定する
             if (check <= 3) {
                 this.position.y++
-                ins.move(2000, 0, 50)
+                this.move(2000, 0, 50)
             } else {
                 console.log("移動不可のため落下を終了")
                 clearInterval(id)

@@ -84,6 +84,20 @@ const rotat_dict = {
             { x: 0, y: 0 },
             { x: 0, y: 0 }
         ]
+    }, 
+    "O": {
+        "right": [
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 }
+        ],
+        "left": [
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 }
+        ]
     }
 }
 
@@ -129,6 +143,13 @@ const block_svg_dict = {
     <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    </svg>`,
+    "O":
+        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="100" height="100">
+    <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
 }
 
@@ -299,6 +320,32 @@ const block_position_dict = {
             { x: 0, y: 2, type: 2 }
         ],
     ],
+    "O": [
+        [
+            { x: 0, y: 0, type: 2 },
+            { x: 1, y: 0, type: 2 },
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 }
+        ],
+        [
+            { x: 0, y: 0, type: 2 },
+            { x: 1, y: 0, type: 2 },
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 }
+        ],
+        [
+            { x: 0, y: 0, type: 2 },
+            { x: 1, y: 0, type: 2 },
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 }
+        ],
+        [
+            { x: 0, y: 0, type: 2 },
+            { x: 1, y: 0, type: 2 },
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 }
+        ],
+    ],
 
     "--": [
         [
@@ -332,7 +379,7 @@ let stage = [
 let ins;
 
 function init() {
-    ins = new Block(document.getElementById("div_svg"), "T_block", "L")
+    ins = new Block(document.getElementById("div_svg"), "T_block", "O")
 }
 
 function stage_log(inp = stage) {

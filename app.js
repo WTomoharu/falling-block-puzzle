@@ -109,10 +109,14 @@ function deep_copy(inp) {
 
 document.addEventListener("keydown", (evt) => {
     console.log(evt.key);
+    // if (evt.key == "ArrowRight") {
+    //     ins.move_improve(200, 50, 0)
+    // } else if (evt.key == "ArrowLeft") {
+    //     ins.move_improve(200, -50, 0)
     if (evt.key == "ArrowRight") {
-        ins.move_improve(200, 50, 0)
+        ins.move_side("right")
     } else if (evt.key == "ArrowLeft") {
-        ins.move_improve(200, -50, 0)
+        ins.move_side("left")
     } else if (evt.key == "ArrowUp") {
         ins.rotat_improve(200, 90)
     } else if (evt.key == "ArrowDown") {
@@ -196,17 +200,49 @@ class Block {
         }, 20)
     }
 
-    block_check() {
+    block_check(inp_x = this.position.x, inp_y = this.position.y) {
         let check_stage_list = deep_copy(stage)
 
         for (let v of block_position_dict[this.block_type][this.rotat_num]) {
-            check_stage_list[v.y + this.position.y][v.x + this.position.x] += v.type
+            check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
         }
 
-        stage_log(check_stage_list)
-        let flat_list = Array.prototype.concat.apply([], check_stage_list) //リストをふ
-        // https://qiita.com/hachisukansw/items/81d739ef39af343df619
+        // stage_log(check_stage_list)
+        
+        //リストをフラットにする
+        let flat_list = Array.prototype.concat.apply([], check_stage_list)
+
+        // 最大値を取得：https://qiita.com/hachisukansw/items/81d739ef39af343df619
         let max = flat_list.reduce((a, b) => a > b ? a : b)
         return max
+    }
+
+    move_side(dir/* left or right */) {
+        //移動後の座標を計算
+        let next_x = this.position.x
+        if (dir == "left") {
+            next_x--
+        } else if (dir == "right") {
+            next_x++
+        }
+
+        //移動可能かチェックする（最大値返却）
+        let check = this.block_check(next_x, this.position.y)
+
+        //最大値から移動可能か判定する
+        if (check　<= 3) {
+            if (dir == "left") {
+                this.position.x--
+                ins.move_improve(200, -50, 0)
+            } else if (dir == "right") {
+                this.position.x++
+                ins.move_improve(200, 50, 0)
+            }
+        } else {
+            console.log("移動不可")
+        }
+
+        //移動後の座標を出力
+        console.log(ins.position)
     }
 }

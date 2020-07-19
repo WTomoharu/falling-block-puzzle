@@ -48,6 +48,7 @@ const block_svg_dict = {
     </svg>`
 }
 
+//角度ごとのブロック位置の情報を記述
 const block_position_dict = {
     "T": [
         [
@@ -57,6 +58,32 @@ const block_position_dict = {
             { x: 0, y: 1, type: 2 },
             { x: 1, y: 1, type: 2 },
             { x: 2, y: 1, type: 2 },
+        ],
+        [
+            { x: 1, y: 0, type: 2 },
+            { x: 2, y: 0, type: 1 },
+            { x: 1, y: 1, type: 2 },
+            { x: 2, y: 1, type: 2 },
+            { x: 1, y: 2, type: 2 },
+            { x: 2, y: 2, type: 1 },
+
+        ],
+        [
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 2, y: 1, type: 2 },
+            { x: 0, y: 2, type: 1 },
+            { x: 1, y: 2, type: 2 },
+            { x: 2, y: 2, type: 1 },
+        ],
+        [
+            { x: 0, y: 0, type: 1 },
+            { x: 1, y: 0, type: 2 },
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 0, y: 2, type: 1 },
+            { x: 1, y: 2, type: 2 },
+
         ]
     ]
 }
@@ -135,7 +162,7 @@ class Block {
         this.element = document.getElementById(block_id)
         this.block_type = block_type
         this.rotat_num = 0
-        this.position = { x: 1, y: 1 }
+        this.position = { x: 1, y: 0 }
 
         // this.move_improve(10000, 0, 600)
     }
@@ -208,7 +235,7 @@ class Block {
         }
 
         // stage_log(check_stage_list)
-        
+
         //リストをフラットにする
         let flat_list = Array.prototype.concat.apply([], check_stage_list)
 
@@ -230,7 +257,7 @@ class Block {
         let check = this.block_check(next_x, this.position.y)
 
         //最大値から移動可能か判定する
-        if (check　<= 3) {
+        if (check <= 3) {
             if (dir == "left") {
                 this.position.x--
                 ins.move_improve(200, -50, 0)

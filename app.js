@@ -321,4 +321,47 @@ class Block {
             console.log("回転不可")
         }
     }
+
+    falling(calcallback = null) {
+        //初回処理
+
+        //移動可能かチェックする（最大値返却）
+        let check = this.blockCheck(
+            this.position.x,
+            this.position.y + 1
+        )
+
+        //最大値から移動可能か判定する
+        if (check <= 3) {
+            this.position.y++
+            ins.move(2000, 0, 50)
+        } else {
+            console.log("移動不可のため落下を終了")
+            if (calcallback) {
+                calcallback()
+            }
+            return
+        }
+
+        let id = setInterval(() => {
+            //移動可能かチェックする（最大値返却）
+            let check = this.blockCheck(
+                this.position.x,
+                this.position.y + 1
+            )
+
+            //最大値から移動可能か判定する
+            if (check <= 3) {
+                this.position.y++
+                ins.move(2000, 0, 50)
+            } else {
+                console.log("移動不可のため落下を終了")
+                clearInterval(id)
+                if (calcallback) {
+                    calcallback()
+                }
+                return
+            }
+        }, 2000)
+    }
 }

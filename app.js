@@ -462,11 +462,13 @@ class Block {
         let dir = angle >= 0 ? "right" : "left"
         console.log(`angle=${(angle / (time / 20))}:${this.rotat_num}`);
 
-        // 回転軸のズレを修正
-        this.move(time,
-            rotat_dict[this.block_type][dir][this.rotat_num].x,
-            rotat_dict[this.block_type][dir][this.rotat_num].y
-        )
+        // ズレ修正用のデータがある場合、回転軸のズレを修正
+        if (rotat_dict[this.block_type]) { //あるかどうかのチェック
+            this.move(time,
+                rotat_dict[this.block_type][dir][this.rotat_num].x,
+                rotat_dict[this.block_type][dir][this.rotat_num].y
+            )
+        }
 
         // rotat_numを終了後の値にセット
         if (angle >= 0) {

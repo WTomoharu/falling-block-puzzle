@@ -83,7 +83,6 @@ const block_position_dict = {
             { x: 1, y: 1, type: 2 },
             { x: 0, y: 2, type: 1 },
             { x: 1, y: 2, type: 2 },
-
         ]
     ],
     "I": [
@@ -171,9 +170,9 @@ document.addEventListener("keydown", (evt) => {
     } else if (evt.key == "ArrowLeft") {
         ins.move_side("left")
     } else if (evt.key == "ArrowUp") {
-        ins.rotat_improve(200, 90)
+        ins.safe_rotat("right")
     } else if (evt.key == "ArrowDown") {
-        ins.rotat_improve(200, -90)
+        ins.safe_rotat("left")
     }
 })
 
@@ -253,14 +252,14 @@ class Block {
         }, 20)
     }
 
-    block_check(inp_x = this.position.x, inp_y = this.position.y) {
+    block_check(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
         let check_stage_list = deep_copy(stage)
 
-        for (let v of block_position_dict[this.block_type][this.rotat_num]) {
+        for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
             check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
         }
 
-        // stage_log(check_stage_list)
+        stage_log(check_stage_list)
 
         //リストをフラットにする
         let flat_list = Array.prototype.concat.apply([], check_stage_list)
@@ -297,5 +296,33 @@ class Block {
 
         //移動後の座標を出力
         console.log(ins.position)
+    }
+
+    safe_rotat(dir /* right or left */) {
+        //移動後のrotat_numを計算
+        let next_rotat_num = this.position.x
+        if (dir == "left") {
+            next_rotat_num = (this.rotat_num + 5) % 4
+        } else if (dir == "right") {
+            next_rotat_num = (this.rotat_num + 3) % 4
+        }
+
+        //移動可能かチェックする（最大値返却）
+        let check = this.block_check(
+            this.position.x,
+            this.position.y,
+            next_rotat_num
+        )
+
+        //最大値から移動可能か判定する
+        if (check <= 3) {
+            if (dir == "left") {
+                ins.rotat_improve(200, -90)
+            } else if (dir == "right") {
+                ins.rotat_improve(200, 90)
+            }
+        } else {
+            console.log("回転不可")
+        }
     }
 }

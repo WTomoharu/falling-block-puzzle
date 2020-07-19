@@ -85,6 +85,32 @@ const block_position_dict = {
             { x: 1, y: 2, type: 2 },
 
         ]
+    ],
+    "I": [
+        [
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 2, y: 1, type: 2 },
+            { x: 3, y: 1, type: 2 },
+        ],
+        [
+            { x: 2, y: 0, type: 2 },
+            { x: 2, y: 1, type: 2 },
+            { x: 2, y: 2, type: 2 },
+            { x: 2, y: 3, type: 2 },
+        ],
+        [
+            { x: 0, y: 2, type: 2 },
+            { x: 1, y: 2, type: 2 },
+            { x: 2, y: 2, type: 2 },
+            { x: 3, y: 2, type: 2 },
+        ],
+        [
+            { x: 1, y: 0, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 1, y: 2, type: 2 },
+            { x: 1, y: 3, type: 2 },
+        ]
     ]
 }
 

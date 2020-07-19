@@ -42,6 +42,20 @@ const rotat_dict = {
             { x: 0, y: 0 },
             { x: 0, y: 0 }
         ]
+    },
+    "J": {
+        "right": [
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 }
+        ],
+        "left": [
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 }
+        ]
     }
 }
 
@@ -63,6 +77,13 @@ const block_svg_dict = {
     "L":
         `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
     <rect x="100" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+    </svg>`,
+    "J":
+        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+    <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
@@ -132,14 +153,6 @@ const block_position_dict = {
             { x: 1, y: 3, type: 2 },
         ]
     ],
-    "--": [
-        [
-            { x: 0, y: 0, type: 2 },
-            { x: 0, y: 0, type: 2 },
-            { x: 0, y: 0, type: 2 },
-            { x: 0, y: 0, type: 2 }
-        ],
-    ],
     "L": [
         [
             { x: 2, y: 0, type: 2 },
@@ -164,6 +177,40 @@ const block_position_dict = {
             { x: 1, y: 0, type: 2 },
             { x: 1, y: 1, type: 2 },
             { x: 1, y: 2, type: 2 }
+        ],
+    ],
+    "J": [
+        [
+            { x: 0, y: 0, type: 2 },
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 2, y: 1, type: 2 }
+        ],
+        [
+            { x: 1, y: 0, type: 2 },
+            { x: 2, y: 0, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 1, y: 2, type: 2 }
+        ],
+        [
+            { x: 0, y: 1, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 2, y: 1, type: 2 },
+            { x: 2, y: 2, type: 2 }
+        ],
+        [
+            { x: 1, y: 0, type: 2 },
+            { x: 1, y: 1, type: 2 },
+            { x: 0, y: 2, type: 2 },
+            { x: 1, y: 2, type: 2 }
+        ]
+    ],
+    "--": [
+        [
+            { x: 0, y: 0, type: 2 },
+            { x: 0, y: 0, type: 2 },
+            { x: 0, y: 0, type: 2 },
+            { x: 0, y: 0, type: 2 }
         ],
     ]
 }
@@ -379,8 +426,6 @@ class Block {
             next_rotat_num = (this.rotat_num + 3) % 4
         } else if (dir == "right") {
             next_rotat_num = (this.rotat_num + 5) % 4
-        } else if (dir == "right") {
-            next_rotat_num = (this.rotat_num + 3) % 4
         }
 
         //移動可能かチェックする（最大値返却）

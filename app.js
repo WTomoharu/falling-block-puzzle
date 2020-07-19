@@ -161,18 +161,14 @@ function deep_copy(inp) {
 
 document.addEventListener("keydown", (evt) => {
     console.log(evt.key);
-    // if (evt.key == "ArrowRight") {
-    //     ins.move_improve(200, 50, 0)
-    // } else if (evt.key == "ArrowLeft") {
-    //     ins.move_improve(200, -50, 0)
     if (evt.key == "ArrowRight") {
-        ins.move_side("right")
+        ins.safeMove("right")
     } else if (evt.key == "ArrowLeft") {
-        ins.move_side("left")
+        ins.safeMove("left")
     } else if (evt.key == "ArrowUp") {
-        ins.safe_rotat("right")
+        ins.safeRotat("right")
     } else if (evt.key == "ArrowDown") {
-        ins.safe_rotat("left")
+        ins.safeRotat("left")
     }
 })
 
@@ -189,10 +185,10 @@ class Block {
         this.rotat_num = 0
         this.position = { x: 1, y: 0 }
 
-        // this.move_improve(10000, 0, 600)
+        // this.move(10000, 0, 600)
     }
 
-    move_improve(time/*ミリ秒*/, x, y, calcallback = null) {
+    move(time/*ミリ秒*/, x, y, calcallback = null) {
         let start = Date.now()
         // console.log(`${(x / (time / 20))}:${(y / (time / 20))}`);
 
@@ -216,13 +212,13 @@ class Block {
         }, 20)
     }
 
-    rotat_improve(time/*ミリ秒*/, angle, calcallback = null) {
+    rotat(time/*ミリ秒*/, angle, calcallback = null) {
         let start = Date.now()
         let dir = angle >= 0 ? "right" : "left"
         console.log(`angle=${(angle / (time / 20))}:${this.rotat_num}`);
 
         // 回転軸のズレを修正
-        this.move_improve(time,
+        this.move(time,
             rotat_dict[this.block_type][dir][this.rotat_num].x,
             rotat_dict[this.block_type][dir][this.rotat_num].y
         )
@@ -252,7 +248,7 @@ class Block {
         }, 20)
     }
 
-    block_check(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
+    blockCheck(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
         let check_stage_list = deep_copy(stage)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
@@ -269,7 +265,7 @@ class Block {
         return max
     }
 
-    move_side(dir/* left or right */) {
+    safeMove(dir/* left or right */) {
         //移動後の座標を計算
         let next_x = this.position.x
         if (dir == "left") {
@@ -279,16 +275,16 @@ class Block {
         }
 
         //移動可能かチェックする（最大値返却）
-        let check = this.block_check(next_x, this.position.y)
+        let check = this.blockCheck(next_x, this.position.y)
 
         //最大値から移動可能か判定する
         if (check <= 3) {
             if (dir == "left") {
                 this.position.x--
-                ins.move_improve(200, -50, 0)
+                ins.move(200, -50, 0)
             } else if (dir == "right") {
                 this.position.x++
-                ins.move_improve(200, 50, 0)
+                ins.move(200, 50, 0)
             }
         } else {
             console.log("移動不可")
@@ -298,7 +294,7 @@ class Block {
         console.log(ins.position)
     }
 
-    safe_rotat(dir /* right or left */) {
+    safeRotat(dir /* right or left */) {
         //移動後のrotat_numを計算
         let next_rotat_num = this.position.x
         if (dir == "left") {
@@ -308,7 +304,7 @@ class Block {
         }
 
         //移動可能かチェックする（最大値返却）
-        let check = this.block_check(
+        let check = this.blockCheck(
             this.position.x,
             this.position.y,
             next_rotat_num
@@ -317,9 +313,9 @@ class Block {
         //最大値から移動可能か判定する
         if (check <= 3) {
             if (dir == "left") {
-                ins.rotat_improve(200, -90)
+                ins.rotat(200, -90)
             } else if (dir == "right") {
-                ins.rotat_improve(200, 90)
+                ins.rotat(200, 90)
             }
         } else {
             console.log("回転不可")

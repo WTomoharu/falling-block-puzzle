@@ -478,19 +478,19 @@ class GameMastr { // GM
     gameStart() {
         this.now_block = new Block(
             document.getElementById("div_svg"),
-            "now_block",
             ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
         )
     }
 }
 
 class Block {
-    constructor(parent_element, block_id, block_type) {
+    constructor(parent_element, block_type) {
+        this.parent_element = parent_element
         this.block_type = block_type
         this.rotat_num = 0
         this.move_lock = false
 
-        this.start(parent_element, block_id)
+        this.start()
     }
 
     move(time/*ミリ秒*/, x, y, calcallback = null) {
@@ -565,11 +565,12 @@ class Block {
 
         // stage_log(check_stage_list)
 
-        //リストをフラットにする
-        let flat_list = Array.prototype.concat.apply([], check_stage_list)
+        //リストをフラットにした後、フィルターで数字のみ抽出
+        let flat_list = Array.prototype.concat.apply([], check_stage_list).filter((v) => v)
 
         // 最大値を取得：https://qiita.com/hachisukansw/items/81d739ef39af343df619
         let max = flat_list.reduce((a, b) => a > b ? a : b)
+        console.log(flat_list, max)
         return max
     }
 
@@ -689,7 +690,7 @@ class Block {
         }, 2000)
     }
 
-    start(parent_element, block_id) {
+    start() {
         const max = 11 // 0 ~ 10 の範囲
         let start_x;
         let check;
@@ -698,18 +699,21 @@ class Block {
         while (true) {
             start_x = Math.floor(Math.random() * max)
             check = this.blockCheck(start_x, 0, 0)
+            this.inStageLog(start_x, 0, 0)
+            console.log(check);
             if (check <= 3) { break }
         }
 
-        parent_element.insertAdjacentHTML(
+        
+        this.parent_element.insertAdjacentHTML(
             "beforeend",
             block_svg_dict[this.block_type]
-                .replace("{block_id}", block_id)
+                .replace("{block_id}", "now_block")
                 .replace("{top_num}", -100)
                 .replace("{left_num}", (start_x - 1) * 50)
         )
 
-        this.element = document.getElementById(block_id)
+        this.element = document.getElementById("now_block")
         this.position = { x: start_x, y: 0 }
 
         this.move(4000, 0, 100, this.falling.bind(this))

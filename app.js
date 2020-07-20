@@ -410,7 +410,7 @@ const BlockData = {
 
 let ins;
 let gm;
-let fallingTime = 400;
+const fallingTime = 400;
 
 function init() {
     gm = new GameMastr()

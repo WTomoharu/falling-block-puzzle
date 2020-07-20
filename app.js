@@ -742,8 +742,7 @@ class Block {
                 }
             }
 
-            for (let v of block_position_dict[this.block_type][this.rotat_num].filter(v => v.type >= 2)) {
-                console.log(v);
+            for (let v of this.getPositionDict()) {
                 this.expect_parent_element.insertAdjacentHTML(
                     "beforeend",
                     `<rect x="${(v.x + this.position.x - 1) * 50}" y="${(v.y + expect_y) * 50}" `
@@ -752,7 +751,11 @@ class Block {
             }
 
             // console.log(expect_y);
-            this.inStageLog(this.position.x, expect_y, 0)
+            // this.inStageLog(this.position.x, expect_y, 0)
         }, time)
+    }
+
+    getPositionDict() {
+        return block_position_dict[this.block_type][this.rotat_num].filter(v => v.type >= 2)
     }
 }

@@ -410,6 +410,7 @@ const BlockData = {
 
 let ins;
 let gm;
+let fallingTime = 400;
 
 function init() {
     gm = new GameMastr()
@@ -678,7 +679,7 @@ class Block {
         //最大値から移動可能か判定する
         if (check <= 3) {
             this.position.y++
-            this.move(2000, 0, 50)
+            this.move(fallingTime, 0, 50)
         } else {
             console.log("移動不可のため落下不可")
             return
@@ -694,7 +695,7 @@ class Block {
             //最大値から移動可能か判定する
             if (check <= 3) {
                 this.position.y++
-                this.move(2000, 0, 50)
+                this.move(fallingTime, 0, 50)
             } else {
                 console.log("移動不可のため落下を終了")
                 clearInterval(id)
@@ -702,7 +703,7 @@ class Block {
                 this.onBottom()
                 return
             }
-        }, 2000)
+        }, fallingTime)
     }
 
     start() {
@@ -732,7 +733,7 @@ class Block {
         this.position = { x: start_x, y: 0 }
 
         this.expectBlock()
-        this.move(4000, 0, 100, this.falling.bind(this))
+        this.move(fallingTime*2, 0, 100, this.falling.bind(this))
     }
 
     expectBlock(time = 0) {

@@ -409,14 +409,15 @@ const BlockData = {
 //0: 無し, 1: 回転用の空間, 2: 固形ブロック
 
 let ins;
-let stage;
+let gm;
 
 function init() {
-    stage = new Stage()
-    ins = new Block(document.getElementById("div_svg"), "T_block", "O")
+    gm = new GameMastr()
+    gm.gameStart()
+    // ins = new Block(document.getElementById("div_svg"), "T_block", "O")
 }
 
-function stage_log(inp = stage.num_list) {
+function stage_log(inp = gm.stage) {
     const r = inp.map((v) => {
         return v.join(" ")
     }).join("\n")
@@ -440,20 +441,20 @@ function deep_copy(inp) {
 document.addEventListener("keydown", (evt) => {
     console.log(evt.key);
     if (evt.key == "ArrowRight") {
-        ins.safeMove("right")
+        gm.now_block.safeMove("right")
     } else if (evt.key == "ArrowLeft") {
-        ins.safeMove("left")
+        gm.now_block.safeMove("left")
     } else if (evt.key == "ArrowUp") {
-        ins.safeRotat("right")
+        gm.now_block.safeRotat("right")
     } else if (evt.key == "ArrowDown") {
-        ins.safeRotat("left")
+        gm.now_block.safeRotat("left")
     }
 })
 
 
-class Stage {
+class GameMastr { // GM
     constructor() {
-        this.num_list = [
+        this.stage = [
             [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
             [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
             [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
@@ -471,6 +472,15 @@ class Stage {
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         ]
         this.lock_elem_list = {} 
+        // this.gameStart()
+    }
+
+    gameStart() {
+        this.now_block = new Block(
+            document.getElementById("div_svg"),
+            "now_block",
+            ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
+        )
     }
 }
 
@@ -547,7 +557,7 @@ class Block {
     }
 
     blockCheck(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
-        let check_stage_list = deep_copy(stage.num_list)
+        let check_stage_list = deep_copy(gm.stage)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
             check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
@@ -564,7 +574,7 @@ class Block {
     }
 
     inStageLog(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
-        let check_stage_list = deep_copy(stage.num_list)
+        let check_stage_list = deep_copy(gm.stage)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
             check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
@@ -594,17 +604,17 @@ class Block {
         if (check <= 3) {
             if (dir == "left") {
                 this.position.x--
-                ins.move(200, -50, 0)
+                this.move(200, -50, 0)
             } else if (dir == "right") {
                 this.position.x++
-                ins.move(200, 50, 0)
+                this.move(200, 50, 0)
             }
         } else {
             console.log("移動不可")
         }
 
         //移動後の座標を出力
-        console.log(ins.position)
+        console.log(this.position)
     }
 
     safeRotat(dir /* right or left */) {
@@ -632,9 +642,9 @@ class Block {
         //最大値から移動可能か判定する
         if (check <= 3) {
             if (dir == "left") {
-                ins.rotat(200, -90)
+                this.rotat(200, -90)
             } else if (dir == "right") {
-                ins.rotat(200, 90)
+                this.rotat(200, 90)
             }
         } else {
             console.log("回転不可")

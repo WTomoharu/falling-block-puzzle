@@ -693,6 +693,6 @@ class Block {
         this.element = document.getElementById(block_id)
         this.position = { x: start_x, y: 0 }
 
-        this.move(4000, 0, 100, this.falling())
+        this.move(4000, 0, 100, this.falling.bind(this))
     }
 }

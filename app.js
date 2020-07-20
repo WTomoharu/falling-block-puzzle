@@ -724,10 +724,11 @@ class Block {
         )
 
         this.element = document.getElementById("now_block")
-        this.position = { x: start_x, y: 0 }
+        this.position = { x: start_x, y: -2 }
 
         this.expectBlock()
-        this.move(fallingTime*2, 0, 100, this.falling.bind(this))
+        this.falling()
+        // this.move(fallingTime*2, 0, 100, this.falling.bind(this))
     }
 
     expectBlock(time = 0) {

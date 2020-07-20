@@ -1,20 +1,6 @@
 "use strict";
 
 const rotat_dict = {
-    "T": {
-        "right": [
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 }
-        ],
-        "left": [
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 },
-            { x: 0, y: 0 }
-        ]
-    },
     "I": {
         "right": [
             { x: 0, y: 0 },
@@ -102,13 +88,7 @@ const rotat_dict = {
 }
 
 const block_svg_dict = {
-    "T":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
-    <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
-    <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
-    <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
-    <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
-    </svg>`,
+
     "I":
         `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="200" height="200">
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="red"></rect>
@@ -155,41 +135,6 @@ const block_svg_dict = {
 
 //角度ごとのブロック位置の情報を記述
 const block_position_dict = {
-    "T": [
-        [
-            { x: 0, y: 0, type: 1 },
-            { x: 1, y: 0, type: 2 },
-            { x: 2, y: 0, type: 1 },
-            { x: 0, y: 1, type: 2 },
-            { x: 1, y: 1, type: 2 },
-            { x: 2, y: 1, type: 2 },
-        ],
-        [
-            { x: 1, y: 0, type: 2 },
-            { x: 2, y: 0, type: 1 },
-            { x: 1, y: 1, type: 2 },
-            { x: 2, y: 1, type: 2 },
-            { x: 1, y: 2, type: 2 },
-            { x: 2, y: 2, type: 1 },
-
-        ],
-        [
-            { x: 0, y: 1, type: 2 },
-            { x: 1, y: 1, type: 2 },
-            { x: 2, y: 1, type: 2 },
-            { x: 0, y: 2, type: 1 },
-            { x: 1, y: 2, type: 2 },
-            { x: 2, y: 2, type: 1 },
-        ],
-        [
-            { x: 0, y: 0, type: 1 },
-            { x: 1, y: 0, type: 2 },
-            { x: 0, y: 1, type: 2 },
-            { x: 1, y: 1, type: 2 },
-            { x: 0, y: 2, type: 1 },
-            { x: 1, y: 2, type: 2 },
-        ]
-    ],
     "I": [
         [
             { x: 0, y: 1, type: 2 },
@@ -404,4 +349,49 @@ const BlockData = {
             <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
             </svg>`,
     },
+    "T": {
+        "pattern": [
+            [
+                { x: 0, y: 0, type: 1 },
+                { x: 1, y: 0, type: 2 },
+                { x: 2, y: 0, type: 1 },
+                { x: 0, y: 1, type: 2 },
+                { x: 1, y: 1, type: 2 },
+                { x: 2, y: 1, type: 2 },
+            ],
+            [
+                { x: 1, y: 0, type: 2 },
+                { x: 2, y: 0, type: 1 },
+                { x: 1, y: 1, type: 2 },
+                { x: 2, y: 1, type: 2 },
+                { x: 1, y: 2, type: 2 },
+                { x: 2, y: 2, type: 1 },
+
+            ],
+            [
+                { x: 0, y: 1, type: 2 },
+                { x: 1, y: 1, type: 2 },
+                { x: 2, y: 1, type: 2 },
+                { x: 0, y: 2, type: 1 },
+                { x: 1, y: 2, type: 2 },
+                { x: 2, y: 2, type: 1 },
+            ],
+            [
+                { x: 0, y: 0, type: 1 },
+                { x: 1, y: 0, type: 2 },
+                { x: 0, y: 1, type: 2 },
+                { x: 1, y: 1, type: 2 },
+                { x: 0, y: 2, type: 1 },
+                { x: 1, y: 2, type: 2 },
+            ]
+        ],
+        "svg":
+            `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+            <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+            <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+            <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+            <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
+            </svg>`,
+    }
+
 }

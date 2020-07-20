@@ -103,49 +103,49 @@ const rotat_dict = {
 
 const block_svg_dict = {
     "T":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="150" height="150">
     <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
     "I":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="200" height="200">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="200" height="200">
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="red"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="150" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
     "L":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="150" height="150">
     <rect x="100" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
     "J":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="150" height="150">
     <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
     "S":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="150" height="150">
     <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
     "Z":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="150" height="150">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="150" height="150">
     <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="100" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     </svg>`,
     "O":
-        `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="100" height="100">
+        `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="100" height="100">
     <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="50" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
     <rect x="0" y="50" width="50" height="50" rx="10" ry="10" fill="green"></rect>
@@ -400,7 +400,7 @@ const BlockData = {
             ]
         },
         "svg":
-            `<svg id="{block_id}" style="position: absolute; top: 0; left: 0;" width="100" height="100">
+            `<svg id="{block_id}" style="position: absolute; top: {top_num}; left: {left_num};" width="100" height="100">
             <rect x="0" y="0" width="50" height="50" rx="10" ry="10" fill="green"></rect>
             </svg>`,
     },
@@ -467,19 +467,11 @@ document.addEventListener("keydown", (evt) => {
 
 class Block {
     constructor(parent_element, block_id, block_type) {
-        //svg_element作成・挿入
-        parent_element.insertAdjacentHTML(
-            "beforeend",
-            block_svg_dict[block_type].replace("{block_id}", block_id)
-        )
-
-        this.element = document.getElementById(block_id)
         this.block_type = block_type
         this.rotat_num = 0
         this.move_lock = false
-        this.position = { x: 1, y: 0 }
 
-        // this.falling()
+        this.start(parent_element, block_id)
     }
 
     move(time/*ミリ秒*/, x, y, calcallback = null) {
@@ -676,5 +668,31 @@ class Block {
                 return
             }
         }, 2000)
+    }
+
+    start(parent_element, block_id) {
+        const max = 11 // 0 ~ 10 の範囲
+        let start_x;
+        let check;
+
+        //置ける場所の乱数ができるまで生成し続ける
+        while (true) {
+            start_x = Math.floor(Math.random() * max)
+            check = this.blockCheck(start_x, 0, 0)
+            if (check <= 3) { break }
+        }
+
+        parent_element.insertAdjacentHTML(
+            "beforeend",
+            block_svg_dict[this.block_type]
+                .replace("{block_id}", block_id)
+                .replace("{top_num}", -100)
+                .replace("{left_num}", (start_x - 1) * 50)
+        )
+
+        this.element = document.getElementById(block_id)
+        this.position = { x: start_x, y: 0 }
+
+        this.move(4000, 0, 100, this.falling())
     }
 }

@@ -407,31 +407,16 @@ const BlockData = {
 }
 
 //0: 無し, 1: 回転用の空間, 2: 固形ブロック
-let stage = [
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-]
 
 let ins;
+let stage;
 
 function init() {
+    stage = new Stage()
     ins = new Block(document.getElementById("div_svg"), "T_block", "O")
 }
 
-function stage_log(inp = stage) {
+function stage_log(inp = stage.num_list) {
     const r = inp.map((v) => {
         return v.join(" ")
     }).join("\n")
@@ -464,6 +449,30 @@ document.addEventListener("keydown", (evt) => {
         ins.safeRotat("left")
     }
 })
+
+
+class Stage {
+    constructor() {
+        this.num_list = [
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        ]
+        this.lock_elem_list = {} 
+    }
+}
 
 class Block {
     constructor(parent_element, block_id, block_type) {
@@ -538,7 +547,7 @@ class Block {
     }
 
     blockCheck(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
-        let check_stage_list = deep_copy(stage)
+        let check_stage_list = deep_copy(stage.num_list)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
             check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
@@ -555,7 +564,7 @@ class Block {
     }
 
     inStageLog(inp_x = this.position.x, inp_y = this.position.y, inp_rotate_num = this.rotat_num) {
-        let check_stage_list = deep_copy(stage)
+        let check_stage_list = deep_copy(stage.num_list)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
             check_stage_list[v.y + inp_y][v.x + inp_x] += v.type

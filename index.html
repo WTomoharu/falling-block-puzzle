@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>落ちものパズル！（develop）</title>
     <script src="app.js"></script>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .parent_div>* {
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <!-- <rect> x=始点のx座標 y=始点のy座標 rx=角の丸みx方向 ry=角の丸みy方向
@@ -33,20 +43,26 @@
 
 <body onload="init()">
     <h1 id="js-test"></h1>
-    <div id="div_svg" style="width: 500px;position: relative;height: 700px;background-color: lightblue;">
-        <!-- 縦の目安ライン -->
-        <svg width="500" height="700">
-            <line x1="0" y1="0" x2="0" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="50" y1="0" x2="50" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="100" y1="0" x2="100" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="150" y1="0" x2="150" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="200" y1="0" x2="200" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="250" y1="0" x2="250" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="300" y1="0" x2="300" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="350" y1="0" x2="350" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="400" y1="0" x2="400" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-            <line x1="450" y1="0" x2="450" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
-        </svg>
+    <div style="width: 600px; height: 50px; background-color: darkblue; z-index: 100; position: relative; text-align: center;">
+        <h1 style="color: white; display: inline-block;">落ちものゲーム（develop）</h1>
+    </div>
+    <div class="parent_div" style="width: 600px; font-size: 0px;">
+        <div style="width: 50px; height: 700px; background-color: darkblue; z-index: 100; position: relative;"></div>
+        <div id="div_svg" style="width: 500px; height: 700px; position: relative; background-color: lightblue;">
+            <!-- 縦の目安ライン -->
+            <svg width="500" height="700">
+                <line x1="50" y1="0" x2="50" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="100" y1="0" x2="100" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="150" y1="0" x2="150" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="200" y1="0" x2="200" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="250" y1="0" x2="250" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="300" y1="0" x2="300" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="350" y1="0" x2="350" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="400" y1="0" x2="400" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+                <line x1="450" y1="0" x2="450" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
+            </svg>
+        </div>
+        <div style="width: 50px; height: 700px; background-color: darkblue; z-index: 100; position: relative;"></div>
     </div>
 </body>
 

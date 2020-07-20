@@ -472,10 +472,21 @@ class GameMastr { // GM
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         ]
         this.lock_elem_list = {}
+        this.lock_parent_elemnt = document.getElementById("lock_svg")
         // this.gameStart()
     }
 
     gameStart() {
+        this.now_block = new Block(
+            ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
+        )
+    }
+
+    nextBlock(position_list) {
+        for (let v of position_list) {
+            this.stage[v.y][v.x] = 2
+        }
+
         this.now_block = new Block(
             ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
         )
@@ -688,6 +699,7 @@ class Block {
                 console.log("移動不可のため落下を終了")
                 clearInterval(id)
                 this.move_lock = true
+                this.onBottom()
                 return
             }
         }, 2000)
@@ -719,10 +731,11 @@ class Block {
         this.element = document.getElementById("now_block")
         this.position = { x: start_x, y: 0 }
 
+        this.expectBlock()
         this.move(4000, 0, 100, this.falling.bind(this))
     }
 
-    expectBlock(time) {
+    expectBlock(time = 0) {
         this.expect_parent_element.textContent = "" //予想子要素を削除
 
         setTimeout(() => {
@@ -755,7 +768,27 @@ class Block {
         }, time)
     }
 
-    getPositionDict() {
+    getPositionDict() { // retern List[{x, y, type}]
         return block_position_dict[this.block_type][this.rotat_num].filter(v => v.type >= 2)
+    }
+
+    onBottom() {
+        //now_blockとexpectの中身を削除
+        this.element.parentNode.removeChild(this.element)
+        this.expect_parent_element.textContent = null
+
+        let lock_parent_elemnt = document.getElementById("lock_svg")
+
+        for (let v of this.getPositionDict()) {
+            lock_parent_elemnt.insertAdjacentHTML(
+                "beforeend",
+                `<rect x="${(v.x + this.position.x - 1) * 50}" y="${(v.y + this.position.y) * 50}" `
+                + `width="50" height="50" rx="10" ry="10" fill="lightred"></rect>`
+            )
+        }
+
+        gm.nextBlock(this.getPositionDict().map((v) => {
+            return { x: v.x + this.position.x, y: v.y + this.position.y }
+        }))
     }
 }

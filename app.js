@@ -1,5 +1,7 @@
 "use strict";
 
+// file:///Users/tomoharu/workspace/falling-block-puzzle/index.html
+
 const rotat_dict = {
     "T": {
         "right": [
@@ -410,7 +412,7 @@ const BlockData = {
 
 let ins;
 let gm;
-const fallingTime = 400;
+const fallingTime = 500;
 
 function init() {
     gm = new GameMastr()
@@ -479,7 +481,9 @@ class GameMastr { // GM
 
     nextBlock(position_list = []) {
         for (let v of position_list) {
-            this.stage[v.y][v.x] = 2
+            if (v.x >= 0 && v.y >= 0) { //範囲外（マイナス）になってないかチェック
+                this.stage[v.y][v.x] = 2
+            }
         }
 
         this.now_block = new Block(
@@ -567,7 +571,9 @@ class Block {
         let check_stage_list = deep_copy(gm.stage)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
-            check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
+            if (v.y + inp_y >= 0 && v.x + inp_x >= 0) {　 //範囲外（マイナス）になってないかチェック
+                check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
+            }
         }
 
         // stage_log(check_stage_list)

@@ -471,21 +471,22 @@ class GameMastr { // GM
             [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         ]
-        this.lock_elem_list = {} 
+        this.lock_elem_list = {}
         // this.gameStart()
     }
 
     gameStart() {
         this.now_block = new Block(
-            document.getElementById("div_svg"),
             ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
         )
     }
 }
 
 class Block {
-    constructor(parent_element, block_type) {
-        this.parent_element = parent_element
+    constructor(block_type) {
+        this.parent_element = document.getElementById("div_svg")
+        this.expect_parent_element = document.getElementById("expect_svg")
+        this.color = "green"
         this.block_type = block_type
         this.rotat_num = 0
         this.move_lock = false
@@ -570,7 +571,7 @@ class Block {
 
         // 最大値を取得：https://qiita.com/hachisukansw/items/81d739ef39af343df619
         let max = flat_list.reduce((a, b) => a > b ? a : b)
-        console.log(flat_list, max)
+        // console.log(flat_list, max)
         return max
     }
 
@@ -603,6 +604,7 @@ class Block {
 
         //最大値から移動可能か判定する
         if (check <= 3) {
+            this.expectBlock(200)
             if (dir == "left") {
                 this.position.x--
                 this.move(200, -50, 0)
@@ -642,6 +644,7 @@ class Block {
 
         //最大値から移動可能か判定する
         if (check <= 3) {
+            this.expectBlock(200)
             if (dir == "left") {
                 this.rotat(200, -90)
             } else if (dir == "right") {
@@ -704,7 +707,7 @@ class Block {
             if (check <= 3) { break }
         }
 
-        
+
         this.parent_element.insertAdjacentHTML(
             "beforeend",
             block_svg_dict[this.block_type]
@@ -717,5 +720,39 @@ class Block {
         this.position = { x: start_x, y: 0 }
 
         this.move(4000, 0, 100, this.falling.bind(this))
+    }
+
+    expectBlock(time) {
+        this.expect_parent_element.textContent = "" //予想子要素を削除
+
+        setTimeout(() => {
+
+            let expect_y = 0
+            let check;
+
+            while (true) {
+                check = this.blockCheck(
+                    this.position.x, expect_y, this.rotat_num
+                )
+                if (check > 3) {
+                    expect_y--
+                    break
+                } else {
+                    expect_y++
+                }
+            }
+
+            for (let v of block_position_dict[this.block_type][this.rotat_num].filter(v => v.type >= 2)) {
+                console.log(v);
+                this.expect_parent_element.insertAdjacentHTML(
+                    "beforeend",
+                    `<rect x="${(v.x + this.position.x - 1) * 50}" y="${(v.y + expect_y) * 50}" `
+                    + `width="50" height="50" rx="10" ry="10" fill="light${this.color}"></rect>`
+                )
+            }
+
+            // console.log(expect_y);
+            this.inStageLog(this.position.x, expect_y, 0)
+        }, time)
     }
 }

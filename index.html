@@ -50,7 +50,7 @@
         <div style="width: 50px; height: 700px; background-color: darkblue; z-index: 100; position: relative;"></div>
         <div id="div_svg" style="width: 500px; height: 700px; position: relative; background-color: lightblue;">
             <!-- 縦の目安ライン -->
-            <svg width="500" height="700">
+            <svg width="500" height="700" style="position: absolute;">
                 <line x1="50" y1="0" x2="50" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
                 <line x1="100" y1="0" x2="100" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
                 <line x1="150" y1="0" x2="150" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
@@ -61,6 +61,7 @@
                 <line x1="400" y1="0" x2="400" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
                 <line x1="450" y1="0" x2="450" y2="700" stroke="#d3d3d3" stroke-width="4"></line>
             </svg>
+            <svg id="expect_svg" width="500" height="700" style="position: absolute;">></svg>
         </div>
         <div style="width: 50px; height: 700px; background-color: darkblue; z-index: 100; position: relative;"></div>
     </div>

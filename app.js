@@ -414,7 +414,7 @@ const fallingTime = 400;
 
 function init() {
     gm = new GameMastr()
-    gm.gameStart()
+    gm.nextBlock()
     // ins = new Block(document.getElementById("div_svg"), "T_block", "O")
 }
 
@@ -477,13 +477,7 @@ class GameMastr { // GM
         // this.gameStart()
     }
 
-    gameStart() {
-        this.now_block = new Block(
-            ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
-        )
-    }
-
-    nextBlock(position_list) {
+    nextBlock(position_list = []) {
         for (let v of position_list) {
             this.stage[v.y][v.x] = 2
         }

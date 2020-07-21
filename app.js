@@ -711,15 +711,26 @@ class Block {
     start() {
         const max = 11 // 0 ~ 10 の範囲
         let start_x;
-        let check;
+        let for_flag = true
+        let for_list = Array(20).fill().map(() => Math.floor(Math.random() * max))
+            .concat(Array(11).fill().map((_, i) => i))
+        console.log(for_list)
 
         //置ける場所の乱数ができるまで生成し続ける
-        while (true) {
-            start_x = Math.floor(Math.random() * max)
-            check = this.blockCheck(start_x, 0, 0)
-            this.inStageLog(start_x, 0, 0)
-            console.log(check);
-            if (check <= 3) { break }
+        for (start_x of for_list) {
+            let check = this.blockCheck(start_x, -1, 0)
+            this.inStageLog(start_x, -1, 0)
+            console.log(`start_x=${start_x}, check=${check}`);
+
+            if (check <= 3) {
+                for_flag = false
+                break
+            }
+        }
+
+        if (for_flag) { //forループが正常終了した場合
+            console.log("無限ループのため打ち切り")
+            return
         }
 
 
@@ -787,7 +798,7 @@ class Block {
             lock_parent_elemnt.insertAdjacentHTML(
                 "beforeend",
                 `<rect x="${(v.x + this.position.x - 1) * 50}" y="${(v.y + this.position.y) * 50}" `
-                + `width="50" height="50" rx="10" ry="10" fill="lightred"></rect>`
+                + `width="50" height="50" rx="10" ry="10" fill="dimgray"></rect>`
             )
         }
 

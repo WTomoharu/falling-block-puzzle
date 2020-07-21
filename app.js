@@ -591,7 +591,9 @@ class Block {
         let check_stage_list = deep_copy(gm.stage)
 
         for (let v of block_position_dict[this.block_type][inp_rotate_num]) {
-            check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
+            if (v.y + inp_y >= 0 && v.x + inp_x >= 0) {　 //範囲外（マイナス）になってないかチェック
+                check_stage_list[v.y + inp_y][v.x + inp_x] += v.type
+            }
         }
         stage_log(check_stage_list)
     }

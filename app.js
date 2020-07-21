@@ -275,7 +275,8 @@ const block_position_dict = {
             { x: 1, y: 0, type: 2 },
             { x: 2, y: 0, type: 2 },
             { x: 0, y: 1, type: 2 },
-            { x: 1, y: 1, type: 2 }
+            { x: 1, y: 1, type: 2 },
+            { x: 2, y: 1, type: 1}
         ],
         [
             { x: 1, y: 0, type: 2 },
@@ -301,7 +302,8 @@ const block_position_dict = {
             { x: 0, y: 0, type: 2 },
             { x: 1, y: 0, type: 2 },
             { x: 1, y: 1, type: 2 },
-            { x: 2, y: 1, type: 2 }
+            { x: 2, y: 1, type: 2 },
+            { x: 0, y: 1, type: 1}
         ],
         [
             { x: 2, y: 0, type: 2 },
@@ -786,13 +788,12 @@ class Block {
 
         //置ける場所の乱数ができるまで生成し続ける
         for (start_x of for_list) {
-            let check1 = this.blockCheck(start_x, -1, 0)
-            let check2 = this.blockCheck(start_x, 0, 0)
+            let check = this.blockCheck(start_x, -1, 0)
 
             // this.inStageLog(start_x, -1, 0)
             // console.log(`start_x=${start_x}, check=${check}`);
 
-            if (check1 <= 3 && check2 <= 3) {
+            if (check <= 2) {
                 for_flag = false
                 break
             }
@@ -825,7 +826,7 @@ class Block {
 
         setTimeout(() => {
 
-            let expect_y = 0
+            let expect_y = this.position.x
             let check;
 
             while (true) {

@@ -714,15 +714,17 @@ class Block {
         let for_flag = true
         let for_list = Array(20).fill().map(() => Math.floor(Math.random() * max))
             .concat(Array(11).fill().map((_, i) => i))
-        console.log(for_list)
+        // console.log(for_list)
 
         //置ける場所の乱数ができるまで生成し続ける
         for (start_x of for_list) {
-            let check = this.blockCheck(start_x, -1, 0)
-            this.inStageLog(start_x, -1, 0)
-            console.log(`start_x=${start_x}, check=${check}`);
+            let check1 = this.blockCheck(start_x, -1, 0)
+            let check2 = this.blockCheck(start_x, 0, 0)
 
-            if (check <= 3) {
+            // this.inStageLog(start_x, -1, 0)
+            // console.log(`start_x=${start_x}, check=${check}`);
+
+            if (check1 <= 3 && check2 <= 3) {
                 for_flag = false
                 break
             }

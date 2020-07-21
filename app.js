@@ -412,7 +412,7 @@ const BlockData = {
 
 let ins;
 let gm;
-const fallingTime = 500;
+const fallingTime = 300;
 
 function init() {
     gm = new GameMastr()
@@ -486,9 +486,77 @@ class GameMastr { // GM
             }
         }
 
-        this.now_block = new Block(
-            ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
-        )
+        let stage_bool = this.stageCheck()
+
+        if (stage_bool) {
+            this.now_block = new Block(
+                ["T", "I", "L", "J", "S", "Z", "O"][Math.floor(Math.random() * 7)]
+            )
+        }
+    }
+
+    stageCheck() {
+        if (this.stage[0].slice(1, -1).filter((v) => v >= 2).length > 0) {
+            console.log("GameEnd")
+            return false
+        }
+
+        let remove_y_list = []　// 小さい => 大きい
+
+        for (let [y, l] of this.stage.slice(0, -1).entries()) {
+            if (l.filter((v) => v < 2).length == 0) {
+                console.log(`${y}行削除`);
+                for (let x = 0; x < 10; x++) {
+                    let remove_element = document.getElementById(`lock_block_${x}_${y}`)
+                    remove_element.parentNode.removeChild(remove_element)
+                }
+                console.log(this.stage[y])
+                this.stage[y] = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2] //一時的に書き換え
+                remove_y_list.push(y)
+            }
+        }
+
+        if (remove_y_list.length <= 0) {
+            return true //削除行がなかった場合、先に終わらす
+        }
+
+        let down_dict = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        for (let y of remove_y_list) {
+            for (let i = 0; i < y; i++) {
+                down_dict[i]++
+            }
+        }
+
+        let new_lock_block_list = []
+
+        for (let [down_y, down_l] of this.stage.slice(0, down_dict.indexOf(0)).entries()) {
+            for (let [down_x, down_o] of down_l.slice(1, -1).entries()) {
+                if (down_o == 2) {
+                    let down_elemtnt = document.getElementById(`lock_block_${down_x}_${down_y}`)
+                    down_elemtnt.parentNode.removeChild(down_elemtnt)
+                    new_lock_block_list.push(
+                        `<rect id="lock_block_${down_x}_${down_y + down_dict[down_y]}"`
+                        + `x="${(down_x) * 50}" y="${(down_y + down_dict[down_y]) * 50}" `
+                        + `width="50" height="50" rx="10" ry="10" fill="dimgray"></rect>`
+                    )
+                }
+            }
+        }
+
+        for (let new_lock_block of new_lock_block_list) {
+            this.lock_parent_elemnt.insertAdjacentHTML("beforeend", new_lock_block)
+        }
+
+        for (let y of remove_y_list.reverse()) {
+            this.stage.splice(y, 1)
+        }
+
+        for (let _ of remove_y_list) {
+            this.stage.unshift([2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2])
+        }
+
+        return true
     }
 }
 
@@ -799,7 +867,8 @@ class Block {
         for (let v of this.getPositionDict()) {
             lock_parent_elemnt.insertAdjacentHTML(
                 "beforeend",
-                `<rect x="${(v.x + this.position.x - 1) * 50}" y="${(v.y + this.position.y) * 50}" `
+                `<rect id="lock_block_${v.x + this.position.x - 1}_${v.y + this.position.y}"`
+                + `x="${(v.x + this.position.x - 1) * 50}" y="${(v.y + this.position.y) * 50}" `
                 + `width="50" height="50" rx="10" ry="10" fill="dimgray"></rect>`
             )
         }

@@ -276,7 +276,7 @@ const block_position_dict = {
             { x: 2, y: 0, type: 2 },
             { x: 0, y: 1, type: 2 },
             { x: 1, y: 1, type: 2 },
-            { x: 2, y: 1, type: 1}
+            { x: 2, y: 1, type: 1 }
         ],
         [
             { x: 1, y: 0, type: 2 },
@@ -303,7 +303,7 @@ const block_position_dict = {
             { x: 1, y: 0, type: 2 },
             { x: 1, y: 1, type: 2 },
             { x: 2, y: 1, type: 2 },
-            { x: 0, y: 1, type: 1}
+            { x: 0, y: 1, type: 1 }
         ],
         [
             { x: 2, y: 0, type: 2 },
@@ -532,6 +532,7 @@ class GameMastr { // GM
 
         let new_lock_block_list = []
 
+        //古いrectを削除して、新しいブロックのrectを作成しArrayに挿入
         for (let [down_y, down_l] of this.stage.slice(0, down_dict.indexOf(0)).entries()) {
             for (let [down_x, down_o] of down_l.slice(1, -1).entries()) {
                 if (down_o == 2) {
@@ -546,14 +547,17 @@ class GameMastr { // GM
             }
         }
 
+        //新しいrectをHTMLに適用
         for (let new_lock_block of new_lock_block_list) {
             this.lock_parent_elemnt.insertAdjacentHTML("beforeend", new_lock_block)
         }
 
+        //stageの削除扱いをした行を実際に削除
         for (let y of remove_y_list.reverse()) {
             this.stage.splice(y, 1)
         }
 
+        //減った文を上から新たに挿入
         for (let _ of remove_y_list) {
             this.stage.unshift([2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2])
         }

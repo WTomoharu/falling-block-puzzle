@@ -552,13 +552,9 @@ class GameMastr { // GM
             this.lock_parent_elemnt.insertAdjacentHTML("beforeend", new_lock_block)
         }
 
-        //stageの削除扱いをした行を実際に削除
-        for (let y of remove_y_list.reverse()) {
+        //stageの削除扱いをした行を実際に削除した後、新たな行を前に挿入する
+        for (let y of remove_y_list) {
             this.stage.splice(y, 1)
-        }
-
-        //減った文を上から新たに挿入
-        for (let _ of remove_y_list) {
             this.stage.unshift([2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2])
         }
 
